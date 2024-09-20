@@ -20,7 +20,6 @@ npx prisma init --datasource-provider postgresql
 npx prisma migrate dev --name dev
 npx prisma generate
 
-## API endpoints ## Method ## Request Body
-
-http://localhost:3000/login POST {"username": "<username>", "password": "<password>" }
-http://localhost:3000/logout POST {"username": "<username>"}
+## API endpoints                  Method       Request Body
+http://localhost:3000/login       POST         {"username": "<username>", "password": "<password>" }
+http://localhost:3000/logout      POST         {"username": "<username>"}
