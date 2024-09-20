@@ -1,15 +1,26 @@
-CREATE TABLE users (
-id SERIAL PRIMARY KEY,
-username VARCHAR(50) UNIQUE NOT NULL,
-password VARCHAR(255) NOT NULL,
-role VARCHAR(20) NOT NULL DEFAULT 'user'
-);
+# Email Campaign Platform
 
-CREATE TABLE posts (
-id SERIAL PRIMARY KEY,
-title VARCHAR(255) NOT NULL,
-content TEXT NOT NULL,
-author_id INTEGER NOT NULL REFERENCES users(id),
-created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
-updated_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP
-);
+## Create a database locally on pgadmin
+
+Create a user with: name, username, password in your database
+
+## Create a .env-file in the root dir and fill out the data
+
+PORT=3000
+DATABASE_URL=postgresql://username:password@localhost:5432/databasename
+SESSION_SECRET=mysecret
+
+## Install dependencies
+
+npm install
+
+## Prisma
+
+npx prisma init --datasource-provider postgresql
+npx prisma migrate dev --name dev
+npx prisma generate
+
+## API endpoints ## Method ## Request Body
+
+http://localhost:3000/login POST {"username": "<username>", "password": "<password>" }
+http://localhost:3000/logout POST {"username": "<username>"}

@@ -5,6 +5,7 @@ import cookieParser from "cookie-parser";
 import helmet from "helmet";
 import "./authStrategies/local-strategy.js";
 import dotenv from "dotenv";
+import { router as loginRouter } from "./routes/auth.js";
 
 dotenv.config();
 
@@ -34,6 +35,7 @@ app.use(passport.initialize());
 app.use(passport.session());
 
 // Import routes
+app.use("/", loginRouter);
 
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));

@@ -2,8 +2,9 @@ declare global {
   namespace Express {
     interface User {
       id: number;
-      username: string;
+      name: string;
       role: string;
+      username: string;
     }
   }
 }
