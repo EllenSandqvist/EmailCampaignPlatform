@@ -10,12 +10,13 @@ router.post("/login", (req: Request, res: Response, next: NextFunction) => {
   passport.authenticate("local", (err: any, user: Express.User | false) => {
     if (err) return next(err);
     if (!user)
-      return res.status(401).json({ message: "invalid username or password" });
+      return res.status(401).json({ message: "invalid email or password" });
     req.logIn(user, (err) => {
       if (err) return next(err);
+      console.log(req.session);
       res.json({
         message: "Logged in succesfully",
-        user: { id: user.id, username: user.username, role: user.role },
+        user: { id: user.id, email: user.email, role: user.role },
       });
     });
   })(req, res, next);

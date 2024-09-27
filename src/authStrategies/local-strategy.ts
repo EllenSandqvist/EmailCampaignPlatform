@@ -4,20 +4,13 @@ import { User as prismaUser } from "@prisma/client";
 import { Strategy as LocalStrategy } from "passport-local";
 import { Response, Request, NextFunction } from "express";
 
-// interface User {
-//   id: number;
-//   username: string;
-//   password: string;
-//   role: string;
-// }
-
 declare global {
   namespace Express {
     interface User {
       id: number;
       name: string;
       role: string;
-      username: string;
+      email: string;
     }
   }
 }
@@ -25,25 +18,28 @@ declare global {
 // Här definerar vi vår strategy för passport, I detta fall använder vi LocalStrategy.
 // Vi kan använda oss av flera strategys samtidigt, som tex Oauth med google, facebook, discord osv.
 passport.use(
-  new LocalStrategy(async (username, password, done) => {
-    try {
-      const user = await prisma.user.findUnique({
-        where: { username: username },
-      });
+  new LocalStrategy(
+    { usernameField: "email" },
+    async (username, password, done) => {
+      try {
+        const user = await prisma.user.findUnique({
+          where: { email: username },
+        });
 
-      if (!user || password !== user.password) {
-        return done(null, false, { message: "Incorrect User or password" });
+        if (!user || password !== user.password) {
+          return done(null, false, { message: "Incorrect User or password" });
+        }
+        return done(null, {
+          id: user.id,
+          name: user.name,
+          email: user.email,
+          role: user.role,
+        });
+      } catch (error) {
+        return done(error);
       }
-      return done(null, {
-        id: user.id,
-        name: user.name,
-        username: user.username,
-        role: user.role,
-      });
-    } catch (error) {
-      return done(error);
     }
-  })
+  )
 );
 
 // serializeUser används för att spara vår user id i vår session då vi i detta fall
@@ -62,7 +58,7 @@ passport.deserializeUser(
           id: true,
           name: true,
           role: true,
-          username: true,
+          email: true,
         },
       });
 
@@ -70,7 +66,6 @@ passport.deserializeUser(
         return done(new Error("User not found"), null);
       }
 
-      console.log("deserialize user", user);
       done(null, user);
     } catch (error) {
       console.error("Error in deserializeUser:", error);

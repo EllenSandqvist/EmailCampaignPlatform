@@ -13,6 +13,7 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+//ev. ändra till gratisanvändare och betalvariant...
 enum Role {
   USER
   EDITOR
@@ -22,7 +23,7 @@ enum Role {
 model User {
   id Int @id @default(autoincrement())
   name String
-  username String @unique
+  email String @unique
   role Role @default(USER)
   password String
   campaigns Campaign[]
@@ -30,20 +31,21 @@ model User {
 
 model Campaign {
   id Int @id @default(autoincrement())
+  campaignName String
   companyName String
   companyDescription String
   productDescription String
   targetAudience String[]
-  emails Email[]
+  emails GeneratedEmail[]
   user User @relation(fields: [userId], references: [id])
   userId            Int       // Foreign key till User
 }
 
-model Email {
+model GeneratedEmail {
   id Int @id @default(autoincrement())
   subject String
   content String
   recipients String[]
-  campaingId Int     //Foreign key till Campaign
-  campaign Campaign @relation(fields: [campaingId], references: [id])
+  campaignId Int     //Foreign key till Campaign
+  campaign Campaign @relation(fields: [campaignId], references: [id])
 }

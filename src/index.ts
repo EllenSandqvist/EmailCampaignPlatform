@@ -6,6 +6,8 @@ import helmet from "helmet";
 import "./authStrategies/local-strategy.js";
 import dotenv from "dotenv";
 import { router as loginRouter } from "./routes/auth.js";
+import { router as registerRouter } from "./routes/registerUser.js";
+import { router as campaignsRouter } from "./routes/authorizedRoutes.js";
 
 dotenv.config();
 
@@ -36,6 +38,8 @@ app.use(passport.session());
 
 // Import routes
 app.use("/", loginRouter);
+app.use("/", registerRouter);
+app.use("/", campaignsRouter);
 
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
