@@ -15,8 +15,7 @@ router.post("/login", (req: Request, res: Response, next: NextFunction) => {
       if (err) return next(err);
       console.log(req.session);
       res.json({
-        message: "Logged in succesfully",
-        user: { id: user.id, email: user.email, role: user.role },
+        loggedIn: true,
       });
     });
   })(req, res, next);

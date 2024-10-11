@@ -8,11 +8,18 @@ import dotenv from "dotenv";
 import { router as loginRouter } from "./routes/auth.js";
 import { router as registerRouter } from "./routes/registerUser.js";
 import { router as campaignsRouter } from "./routes/authorizedRoutes.js";
+import cors from "cors";
 import { router as testRouter } from "./routes/test.js";
 
 dotenv.config();
 
 const app = express();
+app.use(
+  cors({
+    origin: ["http://localhost:3000", "http://localhost:5173"],
+    credentials: true,
+  })
+);
 
 app.use(helmet());
 app.use(express.json());
