@@ -9,6 +9,7 @@ import { router as loginRouter } from "./routes/auth.js";
 import { router as registerRouter } from "./routes/registerUser.js";
 import { router as campaignsRouter } from "./routes/authorizedRoutes.js";
 import cors from "cors";
+import { router as testRouter } from "./routes/test.js";
 
 dotenv.config();
 
@@ -23,7 +24,7 @@ app.use(
 app.use(helmet());
 app.use(express.json());
 app.use(cookieParser());
-
+app.use("/", testRouter);
 const sessionSecret = process.env.SESSION_SECRET;
 if (!sessionSecret) throw new Error("SESSION_SECRET must be set");
 

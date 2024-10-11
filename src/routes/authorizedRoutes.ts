@@ -13,6 +13,7 @@ import {
 } from "../handlers/emailHandler.js";
 
 import requireAuth from "../middleware/isAuthenticated.js";
+import { checkEmail, generatedEmail } from "../handlers/openaiHandler.js";
 
 const router = express.Router();
 
@@ -29,15 +30,17 @@ router.get("/campaigns", getCampaigns);
 router.get("/campaigns/:id", getCampaignById);
 
 //---- EMAIL ROUTES ----
-router.post("/campaigns/:campaignId/generate-email", createCampaignEmail);
+router.post("/campaigns/:campaignId/emails", createCampaignEmail);
 
 //get all campaign emails
-router.get("/campaigns/:campaignId/generated-emails", getCampaignEmails);
+router.get("/campaigns/:campaignId/emails", getCampaignEmails);
 
 //get campaign by id
 router.get(
-  "/campaigns/:campaignId/generated-emails/:generatedEmailId",
+  "/campaigns/:campaignId/emails/:generatedEmailId",
   getCampaignEmailById
 );
-
+//---- AI GENERATOR ROUTES ----
+router.post("/ai/emails", generatedEmail);
+router.post("/ai/check", checkEmail);
 export { router };
