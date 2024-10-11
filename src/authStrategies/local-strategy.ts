@@ -7,7 +7,7 @@ import { Response, Request, NextFunction } from "express";
 declare global {
   namespace Express {
     interface User {
-      id: number;
+      id: string;
       name: string;
       role: string;
       email: string;
@@ -50,7 +50,7 @@ passport.serializeUser((user, done) => {
 
 //deserializeUser använder vi för att hämta vårt user object från vår sparade session.
 passport.deserializeUser(
-  async (id: number, done: (err: any, user?: any) => void) => {
+  async (id: string, done: (err: any, user?: any) => void) => {
     try {
       const user = await prisma.user.findUnique({
         where: { id: id },

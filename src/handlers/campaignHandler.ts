@@ -40,13 +40,7 @@ const getCampaigns = async (req: Request, res: Response) => {
 };
 
 const getCampaignById = async (req: Request, res: Response) => {
-  const campaignId = parseInt(req.params.id);
-
-  if (isNaN(campaignId)) {
-    return res
-      .status(400)
-      .json({ message: "Invalid campaign ID. ID must be a number" });
-  }
+  const campaignId = req.params.id;
 
   try {
     //the combination of unique user id and campaign id will result in 1 campaign regardless.
