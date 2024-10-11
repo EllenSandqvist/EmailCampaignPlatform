@@ -12,7 +12,7 @@ router.post("/register", async (req, res) => {
       data: { name, email, password },
       select: { id: true, name: true, email: true },
     });
-    res.json(user);
+    res.json({ registered: true });
   } catch (error) {
     res.status(400).json({ error: "Unable to create user" });
   }
