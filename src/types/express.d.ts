@@ -1,7 +1,7 @@
 declare global {
   namespace Express {
     interface User {
-      id: number;
+      id: string;
       name: string;
       role: string;
       email: string;
