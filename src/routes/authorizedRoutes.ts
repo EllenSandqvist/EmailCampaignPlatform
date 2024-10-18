@@ -10,6 +10,7 @@ import {
   createCampaignEmail,
   getCampaignEmailById,
   getCampaignEmails,
+  sendEmail,
 } from "../handlers/emailHandler.js";
 
 import requireAuth from "../middleware/isAuthenticated.js";
@@ -44,6 +45,8 @@ router.get(
   "/campaigns/:campaignId/emails/:generatedEmailId",
   getCampaignEmailById
 );
+
+router.post("/campaigns/:campaignId/emails/:emailId/send", sendEmail);
 //---- AI GENERATOR ROUTES ----
 // write in header, which mode you want
 // {mode: generated} or {mode: check}

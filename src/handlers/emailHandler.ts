@@ -1,6 +1,6 @@
 import { Request, Response } from "express-serve-static-core";
 import prisma from "../db/prisma.js";
-
+import { Resend } from "resend";
 const createCampaignEmail = async (req: Request, res: Response) => {
   const { subject, content } = req.body;
   const campaignId = req.params.campaignId;
@@ -61,4 +61,25 @@ const getCampaignEmailById = async (req: Request, res: Response) => {
       .json({ message: "Something went wrong", error: error.message });
   }
 };
-export { createCampaignEmail, getCampaignEmails, getCampaignEmailById };
+
+const sendEmail = async (req: Request, res: Response) => {
+  const resend = new Resend(process.env.RESEND_API_KEY);
+  try {
+    const data = await resend.emails.send({
+      from: "Acme <onboarding@resend.dev>",
+      to: req.body.recipients,
+      subject: req.body.email.subject,
+      html: req.body.email.content,
+    });
+    res.status(200).json({ data, isSend: true });
+  } catch (error) {
+    res.status(400).json({ error, isSend: false });
+  }
+};
+
+export {
+  createCampaignEmail,
+  getCampaignEmails,
+  getCampaignEmailById,
+  sendEmail,
+};
