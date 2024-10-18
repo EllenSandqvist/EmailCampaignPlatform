@@ -16,6 +16,7 @@ router.post("/login", (req: Request, res: Response, next: NextFunction) => {
       console.log(req.session);
       res.json({
         loggedIn: true,
+        username: user.name,
       });
     });
   })(req, res, next);
@@ -25,7 +26,7 @@ router.post("/logout", (req, res) => {
   if (!req.isAuthenticated) return res.sendStatus(401);
   req.logout((err) => {
     if (err) return res.sendStatus(400);
-    res.status(200).send("Logged out successfully");
+    res.status(200).json({ loggedOut: true });
   });
 });
 
