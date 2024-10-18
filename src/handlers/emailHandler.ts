@@ -2,14 +2,13 @@ import { Request, Response } from "express-serve-static-core";
 import prisma from "../db/prisma.js";
 
 const createCampaignEmail = async (req: Request, res: Response) => {
-  const { subject, content, recipients } = req.body;
+  const { subject, content } = req.body;
   const campaignId = req.params.campaignId;
   try {
     const email = await prisma.generatedEmail.create({
       data: {
         subject,
         content,
-        recipients,
         campaignId,
       },
     });

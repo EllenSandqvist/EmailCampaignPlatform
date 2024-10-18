@@ -13,7 +13,11 @@ import {
 } from "../handlers/emailHandler.js";
 
 import requireAuth from "../middleware/isAuthenticated.js";
-import { checkEmail, generatedEmail } from "../handlers/openaiHandler.js";
+import {
+  AiEmail,
+  checkEmail,
+  generatedEmail,
+} from "../handlers/openaiHandler.js";
 
 const router = express.Router();
 
@@ -35,12 +39,13 @@ router.post("/campaigns/:campaignId/emails", createCampaignEmail);
 //get all campaign emails
 router.get("/campaigns/:campaignId/emails", getCampaignEmails);
 
-//get campaign by id
+//get email by id
 router.get(
   "/campaigns/:campaignId/emails/:generatedEmailId",
   getCampaignEmailById
 );
 //---- AI GENERATOR ROUTES ----
-router.post("/ai/emails", generatedEmail);
-router.post("/ai/check", checkEmail);
+// write in header, which mode you want
+// {mode: generated} or {mode: check}
+router.post("/ai", AiEmail);
 export { router };

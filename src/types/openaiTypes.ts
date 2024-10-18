@@ -2,10 +2,11 @@ import { z } from "zod";
 
 export const RequestSchema = z.object({
   company: z.string(),
-  product: z.string(),
   productDescription: z.string(),
-  audience: z.string(),
-  emailType: z.enum(["welcome", "promotional", "productUpdate", "newsletter"]),
+  audience: z.array(z.string()),
+  emailType: z
+    .enum(["welcome", "promotional", "productUpdate", "newsletter"])
+    .optional(),
   length: z.enum(["short", "medium", "long"]).optional(),
 });
 

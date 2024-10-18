@@ -15,16 +15,15 @@ async function aiEmail(
   requestData: GenerateContentRequest,
   res: express.Response
 ) {
-  const { company, product, productDescription, audience, emailType } =
-    requestData;
-
+  const { company, productDescription, audience, emailType } = requestData;
+  console.log(requestData);
   const systemPrompt = `
   You are a marketing expert, writing emails to sell product. Not more than 300 words
    `;
 
   const prompt = `
   You are writing a email for a company named ${company}.
-  They are selling ${product} which is ${productDescription}.
+  They are selling  ${productDescription}.
   target audience: ${audience}
   type of email: ${emailType}
   `;
@@ -52,6 +51,7 @@ async function aiEmail(
   }
 
   res.write("data: [DONE]\n\n");
+
   res.end();
 }
 
@@ -60,7 +60,6 @@ export async function grammarCheckEmail(
   res: express.Response
 ) {
   const { title, content } = requestData;
-  requestData;
 
   const systemPrompt = `
   You are a language model trained to check grammar of emails.
@@ -94,7 +93,8 @@ export async function grammarCheckEmail(
     res.write(`data: ${JSON.stringify(partialObject)}\n\n`);
     generatedContent = { ...generatedContent, ...partialObject };
   }
-  console.log(generatedContent);
+  console.log("här är jag");
+  console.log("svar från ai:", generatedContent);
   res.write("data: [DONE]\n\n");
   res.end();
 }
@@ -104,6 +104,7 @@ export const generatedEmail = async (req: Request, res: Response) => {
     const requestData = RequestSchema.parse(req.body);
     await aiEmail(requestData, res);
   } catch (error) {
+    console.log(error);
     res.status(400).json({ error: error });
   }
 };
@@ -111,8 +112,24 @@ export const generatedEmail = async (req: Request, res: Response) => {
 export const checkEmail = async (req: Request, res: Response) => {
   try {
     const requestData = RequestGrammarSchema.parse(req.body);
+    console.log(requestData);
     await grammarCheckEmail(requestData, res);
   } catch (error) {
+    console.log(error);
+    res.status(400).json({ error: error });
+  }
+};
+
+export const AiEmail = async (req: Request, res: Response) => {
+  try {
+    const { mode } = req.headers;
+    if (mode === "generate") {
+      generatedEmail(req, res);
+    } else if (mode === "check") {
+      checkEmail(req, res);
+    }
+  } catch (error) {
+    console.log(error);
     res.status(400).json({ error: error });
   }
 };
