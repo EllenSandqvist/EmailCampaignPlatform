@@ -6,8 +6,9 @@
   "scripts": {
     "start": "node --loader ts-node/esm src/index.ts",
     "dev": "nodemon --exec node --loader ts-node/esm src/index.ts",
-    "build": "tsc",
-    "start:prod": "npm run build && node --experimental-specifier-resolution=node ./dist/index.js"
+    "build": "npm install && tsc",
+    "start:prod": "npm run build && node --experimental-specifier-resolution=node ./dist/index.js",
+    "vercel-build": "prisma generate"
   },
   "dependencies": {
     "@ai-sdk/openai": "^0.0.66",
@@ -45,5 +46,8 @@
     "prisma": "^5.19.1",
     "typescript": "^4.5.3"
   },
-  "type": "module"
+  "type": "module",
+  "engines": {
+    "node": "20.x"
+  }
 }
