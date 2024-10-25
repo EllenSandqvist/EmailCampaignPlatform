@@ -17,7 +17,7 @@ const app = express();
 
 const allowedOrigins =
   process.env.NODE_ENV === "production"
-    ? ["*"]
+    ? "*"
     : ["http://localhost:5173", "http://localhost:3000"];
 
 app.use(
