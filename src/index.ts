@@ -14,9 +14,15 @@ import { router as testRouter } from "./routes/test.js";
 dotenv.config();
 
 const app = express();
+
+const allowedOrigins =
+  process.env.NODE_ENV === "production"
+    ? ["ourdomain.com"]
+    : ["http://localhost:5173", "http://localhost:3000"];
+
 app.use(
   cors({
-    origin: ["http://localhost:3000", "http://localhost:5173"],
+    origin: allowedOrigins,
     credentials: true,
   })
 );
@@ -51,3 +57,5 @@ app.use("/", campaignsRouter);
 
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
+
+export default app;
