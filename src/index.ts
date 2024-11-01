@@ -10,6 +10,8 @@ import { router as registerRouter } from "./routes/registerUser.js";
 import { router as campaignsRouter } from "./routes/authorizedRoutes.js";
 import cors from "cors";
 import { router as testRouter } from "./routes/test.js";
+import { PrismaSessionStore } from "@quixo3/prisma-session-store";
+import prisma from "./db/prisma.js";
 
 dotenv.config();
 
@@ -36,6 +38,11 @@ if (!sessionSecret) throw new Error("SESSION_SECRET must be set");
 
 app.use(
   session({
+    store: new PrismaSessionStore(prisma, {
+      checkPeriod: 3 * 60 * 60 * 1000,
+      dbRecordIdIsSessionId: true,
+      dbRecordIdFunction: undefined,
+    }),
     secret: sessionSecret,
     resave: false,
     saveUninitialized: false,

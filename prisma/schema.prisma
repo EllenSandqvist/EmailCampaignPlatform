@@ -50,3 +50,10 @@ model GeneratedEmail {
   campaignId String //Foreign key till Campaign
   campaign   Campaign @relation(fields: [campaignId], references: [id])
 }
+
+model Session {
+  id        String   @id
+  sid       String   @unique
+  data      String
+  expiresAt   DateTime
+}
