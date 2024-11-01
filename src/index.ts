@@ -22,14 +22,6 @@ const allowedOrigins =
     ? ["https://main.d2iuui4uss8fdt.amplifyapp.com", "http://localhost:3000"]
     : ["http://localhost:5173", "http://localhost:3000"];
 
-app.use(
-  cors({
-    origin: allowedOrigins,
-    credentials: true,
-    allowedHeaders: ["Content-Type", "Authorization"],
-  })
-);
-
 app.use(helmet());
 app.use(express.json());
 app.use(cookieParser());
@@ -55,7 +47,13 @@ app.use(
     },
   })
 );
-
+app.use(
+  cors({
+    origin: allowedOrigins,
+    credentials: true,
+    allowedHeaders: ["Content-Type", "Authorization"],
+  })
+);
 app.use(passport.initialize());
 app.use(passport.session());
 
