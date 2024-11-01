@@ -18,7 +18,11 @@ const app = express();
 const allowedOrigins =
   process.env.NODE_ENV === "production"
     ? ["https://main.d2iuui4uss8fdt.amplifyapp.com/", "http://localhost:3000"]
-    : ["http://localhost:5173", "http://localhost:3000"];
+    : [
+        "http://localhost:5173",
+        "http://localhost:3000",
+        "https://main.d2iuui4uss8fdt.amplifyapp.com/",
+      ];
 
 app.use(
   cors({
