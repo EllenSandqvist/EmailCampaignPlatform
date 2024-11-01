@@ -26,8 +26,8 @@ const allowedOrigins =
 
 app.use(
   cors({
-    origin: "*",
-    // credentials: true,
+    origin: "https://main.d2iuui4uss8fdt.amplifyapp.com/",
+    credentials: true,
   })
 );
 
