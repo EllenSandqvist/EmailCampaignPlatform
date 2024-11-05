@@ -21,7 +21,8 @@ const allowedOrigins =
   process.env.NODE_ENV === "production"
     ? ["https://main.d2iuui4uss8fdt.amplifyapp.com", "http://localhost:3000"]
     : ["http://localhost:5173", "http://localhost:3000"];
-
+//this is for vercel to trust the proxy deployment.
+app.set("trust proxy", 1);
 app.use(helmet());
 app.use(express.json());
 app.use(cookieParser());
