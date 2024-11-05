@@ -40,6 +40,7 @@ app.use(
     secret: sessionSecret,
     resave: false,
     saveUninitialized: false,
+    proxy: true,
     cookie: {
       secure: true, // Set to true if using HTTPS
       httpOnly: true,
