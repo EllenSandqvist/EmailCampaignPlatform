@@ -1,12 +1,12 @@
 // This file is responsible for handling the registration of a new user.
-import express from "express";
-import prisma from "../db/prisma.js";
-import { hashPassword } from "../utils/bcrypt.js";
+import express from 'express';
+import prisma from '../db/prisma.js';
+import { hashPassword } from '../utils/bcrypt.js';
 
 const router = express.Router();
 
 //create user
-router.post("/register", async (req, res) => {
+router.post('/register', async (req, res) => {
   const { name, email } = req.body;
   let { password } = req.body;
 
@@ -20,7 +20,7 @@ router.post("/register", async (req, res) => {
     });
     res.json({ registered: true });
   } catch (error) {
-    res.status(400).json({ error: "Unable to create user" });
+    res.status(400).json({ error: 'Unable to create user' });
   }
 });
 
