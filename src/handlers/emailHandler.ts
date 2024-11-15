@@ -1,6 +1,6 @@
-import { Request, Response } from "express-serve-static-core";
-import prisma from "../db/prisma.js";
-import { Resend } from "resend";
+import { Request, Response } from 'express-serve-static-core';
+import prisma from '../db/prisma.js';
+import { Resend } from 'resend';
 const createCampaignEmail = async (req: Request, res: Response) => {
   const { subject, content } = req.body;
   const campaignId = req.params.campaignId;
@@ -14,7 +14,7 @@ const createCampaignEmail = async (req: Request, res: Response) => {
     });
     res.json(email);
   } catch (error) {
-    res.status(400).json({ error: "Unable to create email" });
+    res.status(400).json({ error: 'Unable to create email' });
   }
 };
 
@@ -26,7 +26,7 @@ const getCampaignEmails = async (req: Request, res: Response) => {
     });
 
     if (!campaign) {
-      throw new Error("No campaign found!");
+      throw new Error('No campaign found!');
     }
     const emails = await prisma.generatedEmail.findMany({
       where: { campaignId: selectedCampaignId },
@@ -47,7 +47,7 @@ const getCampaignEmailById = async (req: Request, res: Response) => {
     });
 
     if (!campaign) {
-      throw new Error("No campaign found!");
+      throw new Error('No campaign found!');
     }
 
     const email = await prisma.generatedEmail.findUnique({
@@ -56,9 +56,7 @@ const getCampaignEmailById = async (req: Request, res: Response) => {
 
     res.json(email);
   } catch (error: any) {
-    res
-      .status(500)
-      .json({ message: "Something went wrong", error: error.message });
+    res.status(500).json({ message: 'Something went wrong', error: error.message });
   }
 };
 
@@ -66,7 +64,7 @@ const sendEmail = async (req: Request, res: Response) => {
   const resend = new Resend(process.env.RESEND_API_KEY);
   try {
     const data = await resend.emails.send({
-      from: "Acme <onboarding@resend.dev>",
+      from: 'Acme <onboarding@resend.dev>',
       to: req.body.recipients,
       subject: req.body.email.subject,
       html: req.body.email.content,
@@ -77,9 +75,4 @@ const sendEmail = async (req: Request, res: Response) => {
   }
 };
 
-export {
-  createCampaignEmail,
-  getCampaignEmails,
-  getCampaignEmailById,
-  sendEmail,
-};
+export { createCampaignEmail, getCampaignEmails, getCampaignEmailById, sendEmail };

@@ -4,11 +4,19 @@ FROM node:20-alpine3.18
 
 # USER app
 
+# # Installera git
+RUN apk add --no-cache git
+
 WORKDIR /app
 
 COPY package*.json ./
 
+COPY prisma ./prisma/
+
 RUN npm install
+
+# Generera Prisma Client
+RUN npx prisma generate
 
 COPY . .
 

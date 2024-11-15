@@ -5,6 +5,7 @@ import { Strategy as LocalStrategy } from "passport-local";
 import { Response, Request, NextFunction } from "express";
 import { comparePassword } from "../utils/bcrypt.js";
 
+// eslint-disable-next-line @typescript-eslint/no-namespace
 declare global {
   namespace Express {
     interface User {
