@@ -1,7 +1,7 @@
-import express from "express";
-import { Request, Response } from "express-serve-static-core";
-import { openai } from "@ai-sdk/openai";
-import { streamObject } from "ai";
+import express from 'express';
+import { Request, Response } from 'express-serve-static-core';
+import { openai } from '@ai-sdk/openai';
+import { streamObject } from 'ai';
 import {
   GenerateContentRequest,
   RequestSchema,
@@ -9,12 +9,9 @@ import {
   GeneratedContent,
   GrammarCheckEmailRequest,
   RequestGrammarSchema,
-} from "../types/openaiTypes.js";
+} from '../types/openaiTypes.js';
 
-async function aiEmail(
-  requestData: GenerateContentRequest,
-  res: express.Response
-) {
+async function aiEmail(requestData: GenerateContentRequest, res: express.Response) {
   const { company, productDescription, audience, emailType } = requestData;
   console.log(requestData);
   const systemPrompt = `
@@ -29,7 +26,7 @@ async function aiEmail(
   `;
 
   const { partialObjectStream } = await streamObject({
-    model: openai("gpt-4o"),
+    model: openai('gpt-4o'),
     prompt: prompt,
     system: systemPrompt,
     schema: ResponseSchema,
@@ -37,12 +34,12 @@ async function aiEmail(
 
   // Set headers for streaming
   res.writeHead(200, {
-    "Content-Type": "text/event-stream",
-    "Cache-Control": "no-cache",
-    Connection: "keep-alive",
+    'Content-Type': 'text/event-stream',
+    'Cache-Control': 'no-cache',
+    Connection: 'keep-alive',
   });
 
-  let generatedContent: GeneratedContent = { title: "", content: "" };
+  let generatedContent: GeneratedContent = { title: '', content: '' };
 
   // Stream the partial objects
   for await (const partialObject of partialObjectStream) {
@@ -50,7 +47,7 @@ async function aiEmail(
     generatedContent = { ...generatedContent, ...partialObject };
   }
 
-  res.write("data: [DONE]\n\n");
+  res.write('data: [DONE]\n\n');
 
   res.end();
 }
@@ -73,7 +70,7 @@ export async function grammarCheckEmail(
   `;
 
   const { partialObjectStream } = await streamObject({
-    model: openai("gpt-4o"),
+    model: openai('gpt-4o'),
     prompt: prompt,
     system: systemPrompt,
     schema: ResponseSchema,
@@ -81,21 +78,21 @@ export async function grammarCheckEmail(
 
   // Set headers for streaming
   res.writeHead(200, {
-    "Content-Type": "text/event-stream",
-    "Cache-Control": "no-cache",
-    Connection: "keep-alive",
+    'Content-Type': 'text/event-stream',
+    'Cache-Control': 'no-cache',
+    Connection: 'keep-alive',
   });
 
-  let generatedContent: GeneratedContent = { title: "", content: "" };
+  let generatedContent: GeneratedContent = { title: '', content: '' };
 
   // Stream the partial objects
   for await (const partialObject of partialObjectStream) {
     res.write(`data: ${JSON.stringify(partialObject)}\n\n`);
     generatedContent = { ...generatedContent, ...partialObject };
   }
-  console.log("här är jag");
-  console.log("svar från ai:", generatedContent);
-  res.write("data: [DONE]\n\n");
+  console.log('här är jag');
+  console.log('svar från ai:', generatedContent);
+  res.write('data: [DONE]\n\n');
   res.end();
 }
 
@@ -123,9 +120,9 @@ export const checkEmail = async (req: Request, res: Response) => {
 export const AiEmail = async (req: Request, res: Response) => {
   try {
     const { mode } = req.headers;
-    if (mode === "generate") {
+    if (mode === 'generate') {
       generatedEmail(req, res);
-    } else if (mode === "check") {
+    } else if (mode === 'check') {
       checkEmail(req, res);
     }
   } catch (error) {

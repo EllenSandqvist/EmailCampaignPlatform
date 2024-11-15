@@ -1,14 +1,9 @@
-import { Request, Response } from "express-serve-static-core";
-import prisma from "../db/prisma.js";
+import { Request, Response } from 'express-serve-static-core';
+import prisma from '../db/prisma.js';
 
 const createCampaign = async (req: Request, res: Response) => {
-  const {
-    campaignName,
-    companyName,
-    companyDescription,
-    productDescription,
-    targetAudience,
-  } = req.body;
+  const { campaignName, companyName, companyDescription, productDescription, targetAudience } =
+    req.body;
   //we are sure req.user excists due to middleware
   const userId = req.user!.id;
   try {
@@ -24,7 +19,7 @@ const createCampaign = async (req: Request, res: Response) => {
     });
     res.json(campaign);
   } catch (error) {
-    res.status(400).json({ error: "Unable to create campaign" });
+    res.status(400).json({ error: 'Unable to create campaign' });
   }
 };
 
@@ -35,7 +30,7 @@ const getCampaigns = async (req: Request, res: Response) => {
     });
     res.json(campaigns);
   } catch (error) {
-    res.status(404).json({ error: "Campaigns not found" });
+    res.status(404).json({ error: 'Campaigns not found' });
   }
 };
 
@@ -50,7 +45,7 @@ const getCampaignById = async (req: Request, res: Response) => {
 
     res.json(campaign);
   } catch (error) {
-    res.status(500).json({ message: "Something went wrong", error });
+    res.status(500).json({ message: 'Something went wrong', error });
   }
 };
 
