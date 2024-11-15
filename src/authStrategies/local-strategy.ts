@@ -3,7 +3,9 @@ import prisma from "../db/prisma.js";
 import { User as prismaUser } from "@prisma/client";
 import { Strategy as LocalStrategy } from "passport-local";
 import { Response, Request, NextFunction } from "express";
+import { comparePassword } from "../utils/bcrypt.js";
 
+// eslint-disable-next-line @typescript-eslint/no-namespace
 declare global {
   namespace Express {
     interface User {
@@ -26,9 +28,12 @@ passport.use(
           where: { email: username },
         });
 
-        if (!user || password !== user.password) {
-          return done(null, false, { message: "Incorrect User or password" });
+        if (!user) {
+          return done(null, false, { message: "User not found" });
+        } else if (!comparePassword(password, user.password)) {
+          return done(null, false, { message: "Bad credentials" });
         }
+
         return done(null, {
           id: user.id,
           name: user.name,

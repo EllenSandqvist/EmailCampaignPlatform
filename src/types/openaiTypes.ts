@@ -1,13 +1,11 @@
-import { z } from "zod";
+import { z } from 'zod';
 
 export const RequestSchema = z.object({
   company: z.string(),
   productDescription: z.string(),
   audience: z.array(z.string()),
-  emailType: z
-    .enum(["welcome", "promotional", "productUpdate", "newsletter"])
-    .optional(),
-  length: z.enum(["short", "medium", "long"]).optional(),
+  emailType: z.enum(['welcome', 'promotional', 'productUpdate', 'newsletter']).optional(),
+  length: z.enum(['short', 'medium', 'long']).optional(),
 });
 
 export type GenerateContentRequest = z.infer<typeof RequestSchema>;
