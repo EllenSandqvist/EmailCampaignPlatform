@@ -1,12 +1,12 @@
 // import request from "supertest";
-import prisma from "../../db/prisma.js";
-import { getCampaigns } from "../../handlers/campaignHandler.js";
-import { Request, Response } from "express";
-import { jest } from "@jest/globals";
-import { Campaign } from "@prisma/client";
+import prisma from '../../db/prisma.js';
+import { getCampaigns } from '../../handlers/campaignHandler.js';
+import { Request, Response } from 'express';
+import { jest } from '@jest/globals';
+import { Campaign } from '@prisma/client';
 
 // Skapa en mock-modul för prisma
-jest.mock("../../db/prisma", () => ({
+jest.mock('../../db/prisma', () => ({
   __esModule: true,
   default: {
     campaign: {
@@ -16,20 +16,20 @@ jest.mock("../../db/prisma", () => ({
 }));
 
 // Använd Campaign-typen från Prisma direkt
-describe("getCampaigns", () => {
-  it("should return campaigns when found", async () => {
+describe('getCampaigns', () => {
+  it('should return campaigns when found', async () => {
     // Mockad kampanjdata som matchar Prisma Campaign-typen
     const mockCampaigns: Partial<Campaign>[] = [
       {
-        id: "1",
-        campaignName: "Campaign 1",
-        userId: "test-user-id",
+        id: '1',
+        campaignName: 'Campaign 1',
+        userId: 'test-user-id',
         // Lägg till andra required fields från Campaign-typen här om det behövs
       },
       {
-        id: "2",
-        campaignName: "Campaign 2",
-        userId: "test-user-id",
+        id: '2',
+        campaignName: 'Campaign 2',
+        userId: 'test-user-id',
         // Lägg till andra required fields från Campaign-typen här om det behövs
       },
     ];
@@ -40,7 +40,7 @@ describe("getCampaigns", () => {
 
     // Mocka req och res
     const req = {
-      user: { id: "test-user-id" },
+      user: { id: 'test-user-id' },
     } as Request;
 
     const res = {
